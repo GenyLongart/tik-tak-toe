@@ -1,25 +1,11 @@
 import React, {useState} from "react";
-
+import { Square } from "./Square";
+import { Winner } from "./Winner";
 const TURNS = {
 	O: 'o',
 	X: 'x'
 };
 
-
-
-
-
-const Square = ({ children, isSelected, updateBoard, index }) => {
-	const className = `square ${isSelected ? 'is-selected' : ''} `;
-	const handleClick = () => {
-		updateBoard(index);
-	}
-	return (
-		<div onClick={handleClick} className={className}>
-			{children}
-		</div>
-	)
-}
 
 const winnerSets = [
 	[0, 1, 2],
@@ -69,7 +55,6 @@ const Home = () => {
 		if(board[index] || winner) return; // si ya hay un turno en el div, retornar
 		const newBoard = [...board];
 		newBoard[index] = turn;
-		console.log(newBoard);
 		setBoard(newBoard);
 		const newTurn = turn == TURNS.X ? TURNS.O : TURNS.X;
 		setTurn(newTurn);
@@ -107,25 +92,7 @@ const Home = () => {
 					<Square isSelected={turn == TURNS.X}>{TURNS.X}</Square>
 					<Square isSelected={turn == TURNS.O}>{TURNS.O}</Square>
 				</section>
-				{
-					winner != null && (
-						<section className="winner">
-							<div className="text">
-								<h2>
-									{
-										winner == false ? 'Empate' : 'Ganó: ' + winner
-									}
-								</h2>
-								<header className="win">
-									{winner && <Square>{winner}</Square>}
-								</header>
-								<footer>
-									<button onClick={resetGame}>Empezar de nuevo</button>
-								</footer>
-							</div>
-						</section>
-					)
-				}
+				<Winner resetGame={resetGame} winner={winner} />
 			</main>
 		</>
 	);
