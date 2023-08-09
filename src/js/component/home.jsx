@@ -59,6 +59,11 @@ const Home = () => {
 		setWinner(null);
 	}
 
+	const checkEndGame = (newBoard) => {
+		return newBoard.every((square) => square != null );
+	}
+
+
 	const updateBoard = (index) => {
 
 		if(board[index] || winner) return; // si ya hay un turno en el div, retornar
@@ -72,6 +77,8 @@ const Home = () => {
 		const newWinner = checkWinner(newBoard);
 		if(newWinner){
 			setWinner(newWinner);
+		} else if(checkEndGame(newBoard)){
+			setWinner(false);
 		}
 	}
 
@@ -79,6 +86,7 @@ const Home = () => {
 		<>
 			<main className="board">
 				<h1>Tic tac toe</h1>
+				<button onClick={resetGame}>Resetear el juego</button>
 				<section className="game">
 					{
 						board.map((c, index) => {
